@@ -778,7 +778,11 @@ class TraCIKernelNetwork(BaseKernelNetwork):
                     # given edge w.r.t. the provided fractions for each route
                     for i, (_, ft) in enumerate(routes[edge]):
                         sumo_inflow['name'] += str(i)
-                        sumo_inflow['route'] = 'route{}_{}'.format(edge, i)
+                        #set flow to use pre-defined bus routes
+                        if sumo_inflow['vtype'] in ['bus', 'jeepney']:
+                            sumo_inflow['route'] = 'bus_route{}_{}'.format(edge, i)
+                        else:
+                            sumo_inflow['route'] = 'route{}_{}'.format(edge, i)
 
                         for key in ['vehsPerHour', 'probability', 'period']:
                             if key in sumo_inflow:
